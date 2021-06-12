@@ -45,7 +45,6 @@ public class PersonStatusHandler extends AsyncTask<String, String, String> {
             JSONObject jsondata = new JSONObject();
             jsondata.put("cardno", params[0]);
             jsondata.put("status", params[1]);
-            jsondata.put("key", UserPreference.getProjectKey(ctx));
             response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl+"person/beginhpverification");
         } catch (Exception E) {
             E.printStackTrace();

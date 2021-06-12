@@ -26,7 +26,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
     Context ctx;
     GetAllKitsHandler KitHandler;
     AppCompatActivity HPDetailActivity;
-    private TextView Cardno_TV, Name_TV, Gender_TV, Category_TV, DOB_TV;
+    private TextView Cardno_TV, Name_TV, Gender_TV, Category_TV, Age_TV;
     Button Call_Btn;
     public String Mobileno;
     public JSONArray jsonResponse;
@@ -43,7 +43,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         Name_TV = HPDetailActivity.findViewById(R.id.name_tv);
         Gender_TV = HPDetailActivity.findViewById(R.id.gender_tv);
         Category_TV = HPDetailActivity.findViewById(R.id.category_tv);
-        DOB_TV = HPDetailActivity.findViewById(R.id.dob_tv);
+        Age_TV = HPDetailActivity.findViewById(R.id.age_tv);
         Call_Btn = HPDetailActivity.findViewById(R.id.call_btn);
     }
 
@@ -57,9 +57,9 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         String response = null;
         try {
             JSONObject jsondata = new JSONObject();
-            //  3 is current app version
-            String appversion = "4";
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "person/findsingleunverifiedhpwithoptions/"+ UserPreference.getDoctorID(ctx)+"/true/true/false/false/"+appversion);
+            //  0 is current app version
+            String appversion = "1";
+            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/"+appversion);
             Log.e("RESULT", response);
         } catch (Exception E) {
             E.printStackTrace();
@@ -83,8 +83,8 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
                 //  Get all the kits and add to kit spinner
                 KitHandler = new GetAllKitsHandler(
                         ctx,
-                        Profile.get("cardno").toString(),
-                        Profile.get("persontype").toString()
+                        Profile.get("patientDid").toString(),
+                        Profile.get("defaultKitId").toString()
                 );
                 KitHandler.execute();
                 Call_Btn.setEnabled(true);
@@ -103,15 +103,16 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
 
     private void showProfile() {
         try {
-            Mobileno = Profile.get("mobileno").toString();
-            Cardno_TV.setText(Profile.get("cardno").toString());
-            Name_TV.setText(Profile.get("fname").toString().toUpperCase() + " " + (Profile.get("lname") != null ? Profile.get("lname").toString().toUpperCase() : ""));
-            Gender_TV.setText(Profile.get("gender").toString());
-            String DOB = Profile.get("dob").toString();
-            SimpleDateFormat SrcSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            SimpleDateFormat DestSDF = new SimpleDateFormat("dd-MMM-yyyy");
-            DOB_TV.setText(DestSDF.format(SrcSDF.parse(DOB)));
-            Category_TV.setText(Profile.get("persontype").toString().toUpperCase());
+            Mobileno = Profile.get("contactno").toString();
+            Cardno_TV.setText(Profile.get("patientDid").toString());
+            Name_TV.setText(Profile.get("fullname").toString().toUpperCase());
+            Gender_TV.setText(Profile.get("gender").toString().equals("M")?"Male":"Female");
+            Age_TV.setText(Profile.get("age").toString()+" yrs.");
+//            String DOB = Profile.get("dob").toString();
+//            SimpleDateFormat SrcSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+//            SimpleDateFormat DestSDF = new SimpleDateFormat("dd-MMM-yyyy");
+//            DOB_TV.setText(DestSDF.format(SrcSDF.parse(DOB)));
+            Category_TV.setText(Profile.get("concernName").toString().toUpperCase());
         } catch (Exception ex){
             ex.printStackTrace();
         }

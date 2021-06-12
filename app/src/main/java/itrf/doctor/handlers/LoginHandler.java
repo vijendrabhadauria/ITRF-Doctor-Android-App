@@ -49,8 +49,8 @@ public class LoginHandler extends AsyncTask<String, String, String> {
             jsondata.put("mobileno", params[0]);
             jsondata.put("otp", params[1]);
             jsondata.put("platform", "android");
-
-            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "doctor/login");
+            Log.e("uri", ServerUrl + "doctor/otpverification");
+            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "doctor/otpverification");
             jsonResponse = (JSONObject) new JSONParser().parse(response);
         } catch (Exception E) {
             E.printStackTrace();

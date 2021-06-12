@@ -42,12 +42,13 @@ public class PrescriptionHandler extends AsyncTask<String, String, String> {
         String response = null;
         try {
             JSONObject jsondata = new JSONObject();
-            jsondata.put("doctorID", params[0]);
-            jsondata.put("kitID", params[1]);
-            jsondata.put("cardno", params[2]);
-            jsondata.put("remark", params[3]);
-            jsondata.put("key", UserPreference.getProjectKey(ctx));
-            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "healthprofile");
+            jsondata.put("doctorId", params[0]);
+            jsondata.put("kitId", params[1]);
+            jsondata.put("patientId", params[2]);
+            jsondata.put("remarks", params[3]);
+            jsondata.put("concernId", params[4]);
+            jsondata.put("displayRemarks", params[5]);
+            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "prescription/add");
         } catch (Exception E) {
             E.printStackTrace();
             Log.e("Exception", "Prescription Handler");
@@ -62,10 +63,10 @@ public class PrescriptionHandler extends AsyncTask<String, String, String> {
             if ((result != null) && (result != "")) {
                 JSONObject response = (JSONObject) new JSONParser().parse(result);
                 if (response.get("status").toString().equals("success")) {
-                    displayToast(ctx, response.get("msg").toString());
+                    displayToast(ctx, "Prescription saved");
                     ((AppCompatActivity)ctx).finish();
                 } else if (response.get("status").toString().equals("failure")) {
-                    displayToast(ctx, response.get("cause").toString());
+                    displayToast(ctx, response.get("msg").toString());
                     Prescribe_Btn.setEnabled(true);
                     Prescribe_Btn.setBackgroundColor(ctx.getResources().getColor(R.color.colorBlue));
                     Prescribe_Btn.setText("SUBMIT PRESCRIPTION");

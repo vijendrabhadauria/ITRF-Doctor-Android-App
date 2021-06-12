@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if ((UserPreference.getUserLoginStatus(MainActivity.this)) && (!isNextDay())) {
-                openProfileActivity();
+            openProfileActivity();
         } else {
             UserPreference.removeUserPreferences(MainActivity.this);
             initiateViews();
@@ -61,20 +61,15 @@ public class MainActivity extends AppCompatActivity {
                             case 2:
                                 if (validateFieldsForStage2()) {
                                     if (
-                                            (DoctorLoginHandler.jsonResponse.containsKey("district")) &&
-                                                    (DoctorLoginHandler.jsonResponse.containsKey("doctormdid")) &&
-                                                    (DoctorLoginHandler.jsonResponse.containsKey("id")) &&
+                                            (DoctorLoginHandler.jsonResponse.containsKey("doctorId")) &&
                                                     (DoctorLoginHandler.jsonResponse.containsKey("mobileno")) &&
-                                                    (DoctorLoginHandler.jsonResponse.containsKey("fname"))
+                                                    (DoctorLoginHandler.jsonResponse.containsKey("fullname"))
                                     ) {
                                         UserPreference.setUserPreferences(
                                                 MainActivity.this,
-                                                (DoctorLoginHandler.jsonResponse.get("id").toString()),
-                                                (DoctorLoginHandler.jsonResponse.get("doctormdid").toString()),
-                                                (DoctorLoginHandler.jsonResponse.get("fname").toString()),
-                                                (DoctorLoginHandler.jsonResponse.get("mobileno").toString()),
-                                                (DoctorLoginHandler.jsonResponse.get("district").toString()),
-                                                (DoctorLoginHandler.jsonResponse.get("key").toString())
+                                                (DoctorLoginHandler.jsonResponse.get("doctorId").toString()),
+                                                (DoctorLoginHandler.jsonResponse.get("fullname").toString()),
+                                                (DoctorLoginHandler.jsonResponse.get("mobileno").toString())
                                         );
                                         openProfileActivity();
                                     }

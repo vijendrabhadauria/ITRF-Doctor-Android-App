@@ -24,17 +24,17 @@ import static itrf.doctor.support.GeneralUtil.displayToast;
 public class GetAllKitsHandler extends AsyncTask<String, String, String> {
     Context ctx;
     AppCompatActivity HPDetailActivity;
-    private String Cardno, ProfileType;
+    private String PatientDid, DefaultKitId;
     private Spinner Kit_SPN;
     private ArrayAdapter<String> spinnerArrayAdapter;
     private ArrayList<KeyValue> KitsList;
     public JSONArray Kits;
 
-    public GetAllKitsHandler(Context ctx, String Cardno, String ProfileType) {
+    public GetAllKitsHandler(Context ctx, String PatientDid, String DefaultKitId) {
         this.ctx = ctx;
         HPDetailActivity = (AppCompatActivity) ctx;
-        this.Cardno = Cardno;
-        this.ProfileType = ProfileType;
+        this.PatientDid = PatientDid;
+        this.DefaultKitId = DefaultKitId;
         getActivityComponents();
     }
 
@@ -52,10 +52,10 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
         String response = null;
         try {
             JSONObject jsondata = new JSONObject();
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "kit");
+            response = new ConnectionHandler().sendGetRequest(ServerUrl + "optionskit");
         } catch (Exception E) {
             E.printStackTrace();
-            Log.e("Exception", "Get All Reasons Handler");
+            Log.e("Exception", "Get All Kits Handler");
         }
 
         return response;
@@ -74,11 +74,11 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
 
                 if (Kits.size() > 0) {
                     for (int i = 0; i < Kits.size(); i++) {
-                        Log.e("Kit", ((JSONObject) Kits.get(i)).get("name").toString());
+                        Log.e("Kit", ((JSONObject) Kits.get(i)).get("nameEn").toString());
 
                         keyValuePair = new KeyValue(
-                                Integer.parseInt(((JSONObject) Kits.get(i)).get("id").toString()),
-                                ((JSONObject) Kits.get(i)).get("name").toString()
+                                Integer.parseInt(((JSONObject) Kits.get(i)).get("kitId").toString()),
+                                ((JSONObject) Kits.get(i)).get("nameEn").toString()
                         );
                         KitsList.add(keyValuePair);
                     }
@@ -87,14 +87,13 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
                 ArrayAdapter<KeyValue> adapter = new ArrayAdapter<KeyValue>(ctx, android.R.layout.simple_spinner_dropdown_item, KitsList);
                 Kit_SPN.setAdapter(adapter);
 
-                KitID = selectApplicableKit(ProfileType);
                 KeyValue KitItem = new KeyValue();
                 for (int i = 0; i < adapter.getCount(); i++) {
-                     KitItem = adapter.getItem(i);
-                     if(KitItem.getId()==KitID) {
+                    KitItem = adapter.getItem(i);
+                    if ((""+KitItem.getId()).equals(DefaultKitId)) {
                         //  Select this Kit in dropdown by default
-                         Kit_SPN.setSelection(adapter.getPosition(KitItem));
-                     }
+                        Kit_SPN.setSelection(adapter.getPosition(KitItem));
+                    }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -104,9 +103,9 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
         }
     }
 
-    private int selectApplicableKit(String PersonType) {
+    private int selectApplicableKit(String concernid) {
         int ApplicableKitID = 0;
-        switch (PersonType) {
+        switch (concernid) {
             case "free":
                 ApplicableKitID = 7;       //  Immunity Booster Kit
                 break;
@@ -144,6 +143,6 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
                 ApplicableKitID = 13;       //  Gyno Care Yog Kit
                 break;
         }
-    return ApplicableKitID;
+        return ApplicableKitID;
     }
 }

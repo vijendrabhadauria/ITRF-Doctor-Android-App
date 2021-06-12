@@ -9,12 +9,9 @@ import java.util.Date;
 
 public class UserPreference {
     static boolean IS_USER_LOGGED_IN = false;
-    static String DoctorMDID = null;
     static String DoctorID = null;
-    static String FName = null;
+    static String FullName = null;
     static String MobileNo = null;
-    static String District = null;
-    static String ProjectKey = null;
     static Date LastUsedTime = null;
 
     static SharedPreferences getSharedPreferences(Context ctx) {
@@ -33,18 +30,6 @@ public class UserPreference {
         return getSharedPreferences(ctx).getString("doctorid", DoctorID);
     }
 
-    //  DoctorMDID
-    public static void setDoctorMDID(Context ctx, String doctorMdid) {
-        Editor editor = getSharedPreferences(ctx).edit();
-        DoctorMDID = doctorMdid;
-        editor.putString("doctormdid", DoctorMDID);
-        editor.commit();
-    }
-
-    public static String getDoctorMDID(Context ctx) {
-        return getSharedPreferences(ctx).getString("doctormdid", DoctorMDID);
-    }
-
     //  MobileNo
     public static void setMobileNo(Context ctx, String mobileno) {
         Editor editor = getSharedPreferences(ctx).edit();
@@ -57,40 +42,16 @@ public class UserPreference {
         return getSharedPreferences(ctx).getString("mobileno", MobileNo);
     }
 
-    //  FName
-    public static void setFName(Context ctx, String fname) {
+    //  FullName
+    public static void setFullName(Context ctx, String fullname) {
         Editor editor = getSharedPreferences(ctx).edit();
-        FName = fname;
-        editor.putString("fname", FName);
+        FullName = fullname;
+        editor.putString("fullname", FullName);
         editor.commit();
     }
 
     public static String getFName(Context ctx) {
-        return getSharedPreferences(ctx).getString("fname", FName);
-    }
-
-    //  District
-    public static void setDistrict(Context ctx, String district) {
-        Editor editor = getSharedPreferences(ctx).edit();
-        District = district;
-        editor.putString("district", District);
-        editor.commit();
-    }
-
-    public static String getDistrict(Context ctx) {
-        return getSharedPreferences(ctx).getString("district", District);
-    }
-
-    //  Project Key
-    public static void setProjectKey(Context ctx, String projectkey) {
-        Editor editor = getSharedPreferences(ctx).edit();
-        ProjectKey = projectkey;
-        editor.putString("projectkey", ProjectKey);
-        editor.commit();
-    }
-
-    public static String getProjectKey(Context ctx) {
-        return getSharedPreferences(ctx).getString("projectkey", ProjectKey);
+        return getSharedPreferences(ctx).getString("fullname", FullName);
     }
 
     //  Last Used Date-Time
@@ -106,23 +67,17 @@ public class UserPreference {
     }
 
     //  UserLogInLogout
-    public static void setUserPreferences(Context ctx, String doctorid, String doctormdid, String fname, String mobileno, String district, String projectkey) {
+    public static void setUserPreferences(Context ctx, String doctorid, String fullname, String mobileno) {
         IS_USER_LOGGED_IN = true;
         DoctorID = doctorid;
-        DoctorMDID = doctormdid;
-        FName = fname;
+        FullName = fullname;
         MobileNo = mobileno;
-        District = district;
-        ProjectKey = projectkey;
 
         Editor editor = getSharedPreferences(ctx).edit();
         editor.putBoolean("is_logged_in", IS_USER_LOGGED_IN);
         editor.putString("doctorid", DoctorID);
-        editor.putString("doctormdid", DoctorMDID);
-        editor.putString("fname", FName);
+        editor.putString("fullname", FullName);
         editor.putString("mobileno", MobileNo);
-        editor.putString("district", District);
-        editor.putString("projectkey", ProjectKey);
         editor.commit();
     }
 
@@ -133,12 +88,9 @@ public class UserPreference {
     public static void removeUserPreferences(Context ctx) {
         Editor editor = getSharedPreferences(ctx).edit();
         IS_USER_LOGGED_IN = false;
-        DoctorMDID = null;
         DoctorID = null;
-        FName = null;
+        FullName = null;
         MobileNo = null;
-        District = null;
-        ProjectKey = null;
         LastUsedTime = null;
 
         editor.clear();

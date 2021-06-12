@@ -30,7 +30,7 @@ public class HaltHPHandler extends AsyncTask<String, String, String> {
     }
 
     private void getActivityComponents() {
-        Halt_Btn = HPDetailActivity.findViewById(R.id.halt_btn);
+//        Halt_Btn = HPDetailActivity.findViewById(R.id.halt_btn);
     }
 
     @Override
@@ -48,7 +48,6 @@ public class HaltHPHandler extends AsyncTask<String, String, String> {
             jsondata.put("usertype", params[2]);
             jsondata.put("userid", params[3]);
             jsondata.put("reasonid", params[4]);
-            jsondata.put("key", UserPreference.getProjectKey(ctx));
             response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl+"person/sethpashalt");
         } catch (Exception E) {
             E.printStackTrace();

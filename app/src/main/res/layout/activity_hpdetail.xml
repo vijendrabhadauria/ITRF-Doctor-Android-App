@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context=".activities.HPDetail">
 
     <ScrollView
@@ -22,59 +21,59 @@
                 android:id="@+id/appversion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:gravity="right"
-                android:text="version: 1.4" />
+                android:text="version: 1.1"
+                android:textColor="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/drname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimaryDark"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="Doctor Name" />
+                android:text="Doctor Name"
+                android:textColor="@color/colorPrimaryDark" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_margin="10dp"
-                    android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/todayscount_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="left"
-                        android:textColor="@color/colorOrange"
-                        android:gravity="left"
-                        android:text="Todays count: " />
+                <TextView
+                    android:id="@+id/todayscount_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="Todays count: "
+                    android:textColor="@color/colorOrange" />
 
-                    <TextView
-                        android:id="@+id/monthcount_tv"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="right"
-                        android:textColor="@color/colorOrange"
-                        android:gravity="right"
-                        android:text="Month count: " />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/monthcount_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Month count: "
+                    android:textColor="@color/colorOrange" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimary"
                 android:layout_margin="10dp"
-                android:text="Patient Profile" />
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:text="Patient Profile"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -144,14 +143,14 @@
                     android:layout_marginBottom="5dp">
 
                     <TextView
-                        android:id="@+id/dob_head"
+                        android:id="@+id/age_head"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:text="Date of birth: " />
+                        android:text="Age: " />
 
                     <TextView
-                        android:id="@+id/dob_tv"
+                        android:id="@+id/age_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="" />
@@ -191,7 +190,7 @@
                     <Spinner
                         android:id="@+id/kit_sp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </TableRow>
             </TableLayout>
 
@@ -200,23 +199,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_margin="5dp"
                 android:background="@color/colorBlack"
-                android:textColor="@color/colorWhite"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:layout_margin="5dp"
-                android:text="Call Patient" />
+                android:text="Call Patient"
+                android:textColor="@color/colorWhite" />
 
             <EditText
                 android:id="@+id/remarks_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:hint="Add remarks here"
                 android:lines="5"
                 android:minLines="5"
-                android:hint="Add remarks here"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="" />
 
             <TableLayout
@@ -226,32 +225,32 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                     <Button
                         android:id="@+id/prescribe_btn"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@color/colorBlue"
-                        android:textColor="@color/colorWhite"
                         android:layout_margin="5dp"
+                        android:layout_weight="2"
+                        android:background="@color/colorBlue"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="Submit Prescription" />
+                        android:text="Submit Prescription"
+                        android:textColor="@color/colorWhite" />
 
-                    <Button
-                        android:id="@+id/halt_btn"
+                    <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:background="@color/colorTomato"
-                        android:textColor="@color/colorWhite"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="Hold Profile" />
+                        android:layout_weight="1" />
 
                 </TableRow>
             </TableLayout>
