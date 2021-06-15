@@ -1,12 +1,8 @@
 package itrf.doctor.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,21 +10,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import itrf.doctor.R;
 import itrf.doctor.handlers.GetAllReasonsHandler;
 import itrf.doctor.handlers.GetCountsHandler;
 import itrf.doctor.handlers.GetProfileHandler;
-import itrf.doctor.handlers.HaltHPHandler;
-import itrf.doctor.handlers.IsHpUnverifiedHandler;
 import itrf.doctor.handlers.PersonStatusHandler;
 import itrf.doctor.handlers.PrescriptionHandler;
+import itrf.doctor.handlers.UpdatePatientStatusHandler;
 import itrf.doctor.support.KeyValue;
 import itrf.doctor.support.UserPreference;
 
@@ -43,7 +35,7 @@ public class HPDetail extends AppCompatActivity {
     GetCountsHandler CountsHandler;
     private TextView DoctorName_TV;
     private EditText Remarks_ET;
-    private Button Call_Btn, Prescribe_Btn;
+    private Button Call_Btn, Prescribe_Btn, Skip_Btn;
     Spinner Kit_SP, Reason_SP;
     int noOfCallBtnPressed = 0;
 
@@ -66,6 +58,7 @@ public class HPDetail extends AppCompatActivity {
     private void initiateViews() {
         Remarks_ET = findViewById(R.id.remarks_et);
         Prescribe_Btn = findViewById(R.id.prescribe_btn);
+        Skip_Btn=findViewById(R.id.skip_btn);
         DoctorName_TV = findViewById(R.id.drname);
         Call_Btn = findViewById(R.id.call_btn);
         Kit_SP = findViewById(R.id.kit_sp);
@@ -75,6 +68,36 @@ public class HPDetail extends AppCompatActivity {
     }
 
     private void setListeners() {
+
+        Skip_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  Disable both the Buttons to prevent profile corruption by multiple button presses
+                Prescribe_Btn.setEnabled(false);
+                Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Prescribe_Btn.setText("Submit Prescription");
+                Skip_Btn.setEnabled(false);
+                Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Skip_Btn.setText("Please wait..");
+
+                if (isNetworkAvailable(HPDetail.this)) {
+                    try {
+                        //  Submit request
+                        UpdatePatientStatusHandler patientStatusHandler = new UpdatePatientStatusHandler(HPDetail.this);
+                        patientStatusHandler.execute(
+                                ProfileHandler.Profile.get("patientId").toString(),
+                                "false",
+                                UserPreference.getDoctorID(HPDetail.this)
+                        );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    displayToast(HPDetail.this, "Check your internet connectivity and try again");
+                }
+            }
+        });
+
         Call_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +121,9 @@ public class HPDetail extends AppCompatActivity {
                     Prescribe_Btn.setEnabled(false);
                     Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
                     Prescribe_Btn.setText("Please wait..");
+                    Skip_Btn.setEnabled(false);
+                    Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                    Skip_Btn.setText("Skip Patient");
 
                     //  Get selected Prescription from spinner
                     KeyValue SelectedKit = (KeyValue) Kit_SP.getSelectedItem();
@@ -120,8 +146,9 @@ public class HPDetail extends AppCompatActivity {
 
     private void performDefaultOperations() {
         //  Hide Remarks field and Prescribe Button
-        Remarks_ET.setVisibility(View.INVISIBLE);
-        Prescribe_Btn.setVisibility(View.INVISIBLE);
+        Remarks_ET.setVisibility(View.GONE);
+        Prescribe_Btn.setVisibility(View.GONE);
+        Skip_Btn.setVisibility(View.GONE);
 
         //  Display Doctor related info
         DoctorName_TV.setText("Doctor " + UserPreference.getFName(HPDetail.this));
@@ -137,6 +164,7 @@ public class HPDetail extends AppCompatActivity {
         //  Show Remarks field and Prescribe Button
         Remarks_ET.setVisibility(View.VISIBLE);
         Prescribe_Btn.setVisibility(View.VISIBLE);
+        Skip_Btn.setVisibility(View.VISIBLE);
 
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", ProfileHandler.Mobileno, null));
         startActivity(intent);
