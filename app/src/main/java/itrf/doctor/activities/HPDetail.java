@@ -35,7 +35,7 @@ public class HPDetail extends AppCompatActivity {
     GetCountsHandler CountsHandler;
     private TextView DoctorName_TV;
     private EditText Remarks_ET;
-    private Button Call_Btn, Prescribe_Btn, Skip_Btn;
+    private Button Call_Btn, Prescribe_Btn, Skip_Btn, Reject_Btn;
     Spinner Kit_SP, Reason_SP;
     int noOfCallBtnPressed = 0;
 
@@ -59,6 +59,7 @@ public class HPDetail extends AppCompatActivity {
         Remarks_ET = findViewById(R.id.remarks_et);
         Prescribe_Btn = findViewById(R.id.prescribe_btn);
         Skip_Btn=findViewById(R.id.skip_btn);
+        Reject_Btn=findViewById(R.id.reject_btn);
         DoctorName_TV = findViewById(R.id.drname);
         Call_Btn = findViewById(R.id.call_btn);
         Kit_SP = findViewById(R.id.kit_sp);
@@ -72,10 +73,15 @@ public class HPDetail extends AppCompatActivity {
         Skip_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  Disable both the Buttons to prevent profile corruption by multiple button presses
+                //  Disable all the Buttons to prevent profile corruption by multiple button presses
+                Reject_Btn.setEnabled(false);
+                Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Reject_Btn.setText("Reject");
+
                 Prescribe_Btn.setEnabled(false);
                 Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
                 Prescribe_Btn.setText("Submit Prescription");
+
                 Skip_Btn.setEnabled(false);
                 Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
                 Skip_Btn.setText("Please wait..");
@@ -87,6 +93,40 @@ public class HPDetail extends AppCompatActivity {
                         patientStatusHandler.execute(
                                 ProfileHandler.Profile.get("patientId").toString(),
                                 "false",
+                                UserPreference.getDoctorID(HPDetail.this)
+                        );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    displayToast(HPDetail.this, "Check your internet connectivity and try again");
+                }
+            }
+        });
+
+        Reject_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  Disable all the Buttons to prevent profile corruption by multiple button presses
+                Reject_Btn.setEnabled(false);
+                Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Reject_Btn.setText("Please wait..");
+
+                Prescribe_Btn.setEnabled(false);
+                Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Prescribe_Btn.setText("Submit Prescription");
+
+                Skip_Btn.setEnabled(false);
+                Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Skip_Btn.setText("Skip");
+
+                if (isNetworkAvailable(HPDetail.this)) {
+                    try {
+                        //  Submit request
+                        UpdatePatientStatusHandler patientStatusHandler = new UpdatePatientStatusHandler(HPDetail.this);
+                        patientStatusHandler.execute(
+                                ProfileHandler.Profile.get("patientId").toString(),
+                                "reject",
                                 UserPreference.getDoctorID(HPDetail.this)
                         );
                     } catch (Exception e) {
@@ -118,9 +158,14 @@ public class HPDetail extends AppCompatActivity {
             public void onClick(View v) {
                 if (isNetworkAvailable(HPDetail.this)) {
                     //  Disable both the Buttons to prevent profile corruption by multiple button presses
+                    Reject_Btn.setEnabled(false);
+                    Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                    Reject_Btn.setText("Reject");
+
                     Prescribe_Btn.setEnabled(false);
                     Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
                     Prescribe_Btn.setText("Please wait..");
+
                     Skip_Btn.setEnabled(false);
                     Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
                     Skip_Btn.setText("Skip Patient");

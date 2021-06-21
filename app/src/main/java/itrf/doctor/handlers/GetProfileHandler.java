@@ -57,8 +57,8 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         String response = null;
         try {
             JSONObject jsondata = new JSONObject();
-            //  0 is current app version
-            String appversion = "1";
+            //  2 is current app version
+            String appversion = "3";
             response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/"+appversion);
             Log.e("RESULT", response);
         } catch (Exception E) {
