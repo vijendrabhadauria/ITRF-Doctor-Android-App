@@ -35,7 +35,7 @@ public class HPDetail extends AppCompatActivity {
     GetCountsHandler CountsHandler;
     private TextView DoctorName_TV;
     private EditText Remarks_ET;
-    private Button Call_Btn, Prescribe_Btn, Skip_Btn, Reject_Btn;
+    private Button Call_Patient_Btn, Call_Volunteer_Btn, Prescribe_Btn, Skip_Btn, Reject_Btn;
     Spinner Kit_SP, Reason_SP;
     int noOfCallBtnPressed = 0;
 
@@ -57,12 +57,13 @@ public class HPDetail extends AppCompatActivity {
 
     private void initiateViews() {
         Remarks_ET = findViewById(R.id.remarks_et);
+        Kit_SP = findViewById(R.id.kit_sp);
+        DoctorName_TV = findViewById(R.id.drname);
+        Call_Patient_Btn = findViewById(R.id.call_patient_btn);
+        Call_Volunteer_Btn = findViewById(R.id.call_volunteer_btn);
         Prescribe_Btn = findViewById(R.id.prescribe_btn);
         Skip_Btn=findViewById(R.id.skip_btn);
         Reject_Btn=findViewById(R.id.reject_btn);
-        DoctorName_TV = findViewById(R.id.drname);
-        Call_Btn = findViewById(R.id.call_btn);
-        Kit_SP = findViewById(R.id.kit_sp);
 
 //        String ReasonTitle = "";
 //        ReasonValue keyValuePair;
@@ -138,12 +139,27 @@ public class HPDetail extends AppCompatActivity {
             }
         });
 
-        Call_Btn.setOnClickListener(new View.OnClickListener() {
+        Call_Patient_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isNetworkAvailable(HPDetail.this)) {
                     try {
-                        initiateCall();
+                        initiateCall(ProfileHandler.Mobileno);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    displayToast(HPDetail.this, "Check your internet connectivity and try again");
+                }
+            }
+        });
+
+        Call_Volunteer_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isNetworkAvailable(HPDetail.this)) {
+                    try {
+                        initiateCall(ProfileHandler.VolunteerMobileNo);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -206,14 +222,14 @@ public class HPDetail extends AppCompatActivity {
         ReasonsHandler.execute();
     }
 
-    public void initiateCall() {
+    public void initiateCall(String numberToDial) {
         //  Show Remarks field and Prescribe Button
         Remarks_ET.setVisibility(View.VISIBLE);
         Prescribe_Btn.setVisibility(View.VISIBLE);
         Skip_Btn.setVisibility(View.VISIBLE);
         Reject_Btn.setVisibility(View.VISIBLE);
 
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", ProfileHandler.Mobileno, null));
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", numberToDial, null));
         startActivity(intent);
     }
 }

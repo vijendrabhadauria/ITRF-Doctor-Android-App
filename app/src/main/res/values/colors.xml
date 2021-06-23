@@ -11,5 +11,6 @@
     <color name="colorCream">#FFF8E1</color>
     <color name="colorGray">#ECEFF1</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorYellow">#ffd700</color>
     <color name="colorDisabled">#808080</color>
 </resources>

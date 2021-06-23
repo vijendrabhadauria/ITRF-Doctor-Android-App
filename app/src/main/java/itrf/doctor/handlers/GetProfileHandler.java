@@ -27,8 +27,8 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
     GetAllKitsHandler KitHandler;
     AppCompatActivity HPDetailActivity;
     private TextView Cardno_TV, Name_TV, Gender_TV, Category_TV, Age_TV;
-    Button Call_Btn;
-    public String Mobileno;
+    Button Call_Patient_Btn, Call_Volunteer_Btn;
+    public String Mobileno, VolunteerMobileNo;
     public JSONArray jsonResponse;
     public JSONObject Profile;
 
@@ -44,7 +44,8 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         Gender_TV = HPDetailActivity.findViewById(R.id.gender_tv);
         Category_TV = HPDetailActivity.findViewById(R.id.category_tv);
         Age_TV = HPDetailActivity.findViewById(R.id.age_tv);
-        Call_Btn = HPDetailActivity.findViewById(R.id.call_btn);
+        Call_Patient_Btn = HPDetailActivity.findViewById(R.id.call_patient_btn);
+        Call_Volunteer_Btn = HPDetailActivity.findViewById(R.id.call_volunteer_btn);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
             JSONObject jsondata = new JSONObject();
             //  2 is current app version
             String appversion = "3";
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/"+appversion);
+            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + appversion);
             Log.e("RESULT", response);
         } catch (Exception E) {
             E.printStackTrace();
@@ -77,7 +78,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
             try {
                 jsonResponse = (JSONArray) new JSONParser().parse(result);
                 Log.e("Response", jsonResponse.toJSONString());
-                Profile = (JSONObject)jsonResponse.get(0);
+                Profile = (JSONObject) jsonResponse.get(0);
                 showProfile();
 
                 //  Get all the kits and add to kit spinner
@@ -87,16 +88,18 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
                         Profile.get("defaultKitId").toString()
                 );
                 KitHandler.execute();
-                Call_Btn.setEnabled(true);
+                Call_Patient_Btn.setEnabled(true);
+                Call_Volunteer_Btn.setEnabled(true);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        } else if((result.equals("appversion mismatch"))){
+        } else if ((result.equals("appversion mismatch"))) {
             Log.e("TRY", "2");
             displayToast(ctx, "Please update your app to continue using it");
         } else {
             Log.e("TRY", "3");
-            Call_Btn.setEnabled(false);
+            Call_Patient_Btn.setEnabled(false);
+            Call_Volunteer_Btn.setEnabled(false);
             displayToast(ctx, "No health profile is available");
         }
     }
@@ -104,16 +107,17 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
     private void showProfile() {
         try {
             Mobileno = Profile.get("contactno").toString();
+            VolunteerMobileNo = Profile.get("volunteerContactno").toString();
             Cardno_TV.setText(Profile.get("patientDid").toString());
             Name_TV.setText(Profile.get("fullname").toString().toUpperCase());
-            Gender_TV.setText(Profile.get("gender").toString().equals("M")?"Male":"Female");
-            Age_TV.setText(Profile.get("age").toString()+" yrs.");
+            Gender_TV.setText(Profile.get("gender").toString().equals("M") ? "Male" : "Female");
+            Age_TV.setText(Profile.get("age").toString() + " yrs.");
 //            String DOB = Profile.get("dob").toString();
 //            SimpleDateFormat SrcSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 //            SimpleDateFormat DestSDF = new SimpleDateFormat("dd-MMM-yyyy");
 //            DOB_TV.setText(DestSDF.format(SrcSDF.parse(DOB)));
             Category_TV.setText(Profile.get("concernName").toString().toUpperCase());
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
