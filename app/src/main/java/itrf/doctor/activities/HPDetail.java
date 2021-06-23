@@ -194,6 +194,7 @@ public class HPDetail extends AppCompatActivity {
         Remarks_ET.setVisibility(View.GONE);
         Prescribe_Btn.setVisibility(View.GONE);
         Skip_Btn.setVisibility(View.GONE);
+        Reject_Btn.setVisibility(View.GONE);
 
         //  Display Doctor related info
         DoctorName_TV.setText("Doctor " + UserPreference.getFName(HPDetail.this));
@@ -210,6 +211,7 @@ public class HPDetail extends AppCompatActivity {
         Remarks_ET.setVisibility(View.VISIBLE);
         Prescribe_Btn.setVisibility(View.VISIBLE);
         Skip_Btn.setVisibility(View.VISIBLE);
+        Reject_Btn.setVisibility(View.VISIBLE);
 
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", ProfileHandler.Mobileno, null));
         startActivity(intent);
