@@ -62,6 +62,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
             //  2 is current app version
             String appversion = "4";
             response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + appversion);
+
             Log.e("RESULT", response);
         } catch (Exception E) {
             E.printStackTrace();
