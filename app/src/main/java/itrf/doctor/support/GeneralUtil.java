@@ -3,6 +3,7 @@ package itrf.doctor.support;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 import static androidx.core.content.ContextCompat.getSystemService;
@@ -12,6 +13,7 @@ public class GeneralUtil {
     //  generate and returns a 4 digit integer
     public static String generateOtp() {
         int randomPIN = (int)(Math.random()*9000)+1000;
+//        Log.e("otp", ""+randomPIN);
         return String.valueOf(randomPIN);
     }
 

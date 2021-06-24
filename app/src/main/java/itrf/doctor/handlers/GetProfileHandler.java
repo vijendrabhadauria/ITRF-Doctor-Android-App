@@ -17,6 +17,7 @@ import org.json.simple.parser.ParseException;
 import java.text.SimpleDateFormat;
 
 import itrf.doctor.R;
+import itrf.doctor.activities.HPDetail;
 import itrf.doctor.support.UserPreference;
 
 import static itrf.doctor.support.Const.ServerUrl;
@@ -59,8 +60,8 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         try {
             JSONObject jsondata = new JSONObject();
             //  2 is current app version
-            String appversion = "3";
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + appversion);
+            String appversion = "4";
+            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + appversion);
             Log.e("RESULT", response);
         } catch (Exception E) {
             E.printStackTrace();
