@@ -21,6 +21,7 @@ import itrf.doctor.activities.HPDetail;
 import itrf.doctor.support.UserPreference;
 
 import static itrf.doctor.support.Const.ServerUrl;
+import static itrf.doctor.support.Const.doctorAppVersion;
 import static itrf.doctor.support.GeneralUtil.displayToast;
 
 public class GetProfileHandler extends AsyncTask<String, String, String> {
@@ -59,9 +60,8 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         String response = null;
         try {
             JSONObject jsondata = new JSONObject();
-            //  2 is current app version
-            String appversion = "4";
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + appversion);
+            //  5 is current doctor app version
+            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
 
             Log.e("RESULT", response);
         } catch (Exception E) {

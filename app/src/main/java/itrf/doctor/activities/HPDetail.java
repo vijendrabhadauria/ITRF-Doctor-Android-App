@@ -26,6 +26,7 @@ import itrf.doctor.handlers.UpdatePatientStatusHandler;
 import itrf.doctor.support.KeyValue;
 import itrf.doctor.support.UserPreference;
 
+import static itrf.doctor.support.Const.doctorAppVersion_Display;
 import static itrf.doctor.support.GeneralUtil.displayToast;
 import static itrf.doctor.support.GeneralUtil.isNetworkAvailable;
 
@@ -35,7 +36,7 @@ public class HPDetail extends AppCompatActivity {
     PersonStatusHandler StatusHandler;
     GetAllReasonsHandler ReasonsHandler;
     GetCountsHandler CountsHandler;
-    private TextView DoctorName_TV;
+    private TextView DoctorName_TV, appversion;
     private EditText Remarks_ET;
     private Button Call_Patient_Btn, Call_Volunteer_Btn, Prescribe_Btn, Skip_Btn, Reject_Btn;
     Spinner Kit_SP, Reason_SP;
@@ -66,6 +67,9 @@ public class HPDetail extends AppCompatActivity {
         Prescribe_Btn = findViewById(R.id.prescribe_btn);
         Skip_Btn = findViewById(R.id.skip_btn);
         Reject_Btn = findViewById(R.id.reject_btn);
+
+        appversion = findViewById(R.id.appversion);
+        appversion.setText(doctorAppVersion_Display);
 
 //        String ReasonTitle = "";
 //        ReasonValue keyValuePair;
