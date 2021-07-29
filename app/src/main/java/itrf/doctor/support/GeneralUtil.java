@@ -13,7 +13,7 @@ public class GeneralUtil {
     //  generate and returns a 4 digit integer
     public static String generateOtp() {
         int randomPIN = (int)(Math.random()*9000)+1000;
-//        Log.e("otp", ""+randomPIN);
+        Log.e("otp", ""+randomPIN);
         return String.valueOf(randomPIN);
     }
 
