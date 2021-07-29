@@ -45,7 +45,11 @@ public class UpdatePatientStatusHandler
             jsondata.put("patientId", params[0]);
             jsondata.put("status", params[1]);
             jsondata.put("doctorId", params[2]);
-            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl+"patient/updateStatus");
+            //  params[3] (i.e. Reason of rejection) is available only when patient is rejected
+            if (params[1].equals("reject")) {
+                jsondata.put("rejectReasonId", params[3]);
+            }
+            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "patient/updateStatus");
         } catch (Exception E) {
             E.printStackTrace();
             Log.e("Exception", "In Update Patient Status Handler");
@@ -57,11 +61,11 @@ public class UpdatePatientStatusHandler
     @Override
     protected void onPostExecute(String result) {
         try {
-            if((!result.equals("")) && (!result.equals("{}")) && (result!=null)) {
+            if ((!result.equals("")) && (!result.equals("{}")) && (result != null)) {
                 JSONObject response = (JSONObject) new JSONParser().parse(result);
                 if (response.get("status").toString().equals("success")) {
                     displayToast(ctx, response.get("msg").toString());
-                    ((AppCompatActivity)ctx).finish();
+                    ((AppCompatActivity) ctx).finish();
                 } else if (response.get("status").toString().equals("failure")) {
                     displayToast(ctx, response.get("cause").toString());
                     Skip_Btn.setEnabled(true);

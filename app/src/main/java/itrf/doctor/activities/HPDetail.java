@@ -1,5 +1,6 @@
 package itrf.doctor.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -62,8 +64,8 @@ public class HPDetail extends AppCompatActivity {
         Call_Patient_Btn = findViewById(R.id.call_patient_btn);
         Call_Volunteer_Btn = findViewById(R.id.call_volunteer_btn);
         Prescribe_Btn = findViewById(R.id.prescribe_btn);
-        Skip_Btn=findViewById(R.id.skip_btn);
-        Reject_Btn=findViewById(R.id.reject_btn);
+        Skip_Btn = findViewById(R.id.skip_btn);
+        Reject_Btn = findViewById(R.id.reject_btn);
 
 //        String ReasonTitle = "";
 //        ReasonValue keyValuePair;
@@ -108,34 +110,35 @@ public class HPDetail extends AppCompatActivity {
         Reject_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  Disable all the Buttons to prevent profile corruption by multiple button presses
-                Reject_Btn.setEnabled(false);
-                Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
-                Reject_Btn.setText("Please wait..");
-
-                Prescribe_Btn.setEnabled(false);
-                Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
-                Prescribe_Btn.setText("Submit Prescription");
-
-                Skip_Btn.setEnabled(false);
-                Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
-                Skip_Btn.setText("Skip");
-
-                if (isNetworkAvailable(HPDetail.this)) {
-                    try {
-                        //  Submit request
-                        UpdatePatientStatusHandler patientStatusHandler = new UpdatePatientStatusHandler(HPDetail.this);
-                        patientStatusHandler.execute(
-                                ProfileHandler.Profile.get("patientId").toString(),
-                                "reject",
-                                UserPreference.getDoctorID(HPDetail.this)
-                        );
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    displayToast(HPDetail.this, "Check your internet connectivity and try again");
-                }
+//                //  Disable all the Buttons to prevent profile corruption by multiple button presses
+//                Reject_Btn.setEnabled(false);
+//                Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+//                Reject_Btn.setText("Please wait..");
+//
+//                Prescribe_Btn.setEnabled(false);
+//                Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+//                Prescribe_Btn.setText("Submit Prescription");
+//
+//                Skip_Btn.setEnabled(false);
+//                Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+//                Skip_Btn.setText("Skip");
+//
+//                if (isNetworkAvailable(HPDetail.this)) {
+//                    try {
+//                        //  Submit request
+//                        UpdatePatientStatusHandler patientStatusHandler = new UpdatePatientStatusHandler(HPDetail.this);
+//                        patientStatusHandler.execute(
+//                                ProfileHandler.Profile.get("patientId").toString(),
+//                                "reject",
+//                                UserPreference.getDoctorID(HPDetail.this)
+//                        );
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    displayToast(HPDetail.this, "Check your internet connectivity and try again");
+//                }
+                askForRejectReason();
             }
         });
 
@@ -232,4 +235,66 @@ public class HPDetail extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", numberToDial, null));
         startActivity(intent);
     }
+
+    public void askForRejectReason() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HPDetail.this);
+//        builder.setCancelable(false);
+        builder.setTitle("Please select a reason");
+        Reason_SP = new Spinner(this);
+        Reason_SP.setAdapter(ReasonsHandler.ReasonsSpinnerAdapter);
+        builder.setView(Reason_SP);
+
+        builder.setPositiveButton("Reject", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                  disappear the dialog
+//  Disable all the Buttons to prevent profile corruption by multiple button presses
+                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);
+                Reject_Btn.setEnabled(false);
+                Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Reject_Btn.setText("Please wait..");
+
+                Prescribe_Btn.setEnabled(false);
+                Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Prescribe_Btn.setText("Submit Prescription");
+
+                Skip_Btn.setEnabled(false);
+                Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                Skip_Btn.setText("Skip");
+
+                if (isNetworkAvailable(HPDetail.this)) {
+                    try {
+                        //  Get selected Prescription from spinner
+                        KeyValue SelectedReason = (KeyValue) Reason_SP.getSelectedItem();
+
+                        //  Submit request
+                        UpdatePatientStatusHandler patientStatusHandler = new UpdatePatientStatusHandler(HPDetail.this);
+                        patientStatusHandler.execute(
+                                ProfileHandler.Profile.get("patientId").toString(),
+                                "reject",
+                                UserPreference.getDoctorID(HPDetail.this),
+                                ""+SelectedReason.getId()
+                                );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    displayToast(HPDetail.this, "Check your internet connectivity and try again");
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
 }

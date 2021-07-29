@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,7 @@ public class GetAllReasonsHandler extends AsyncTask<String, String, String> {
     public ArrayAdapter<KeyValue> ReasonsSpinnerAdapter;
     private ArrayList<KeyValue> ReasonsList;
     public JSONArray Reasons;
+    public Spinner reason_spn;
 
     public GetAllReasonsHandler(Context ctx) {
         this.ctx = ctx;
@@ -32,7 +34,6 @@ public class GetAllReasonsHandler extends AsyncTask<String, String, String> {
     }
 
     private void getActivityComponents() {
-
     }
 
     @Override
