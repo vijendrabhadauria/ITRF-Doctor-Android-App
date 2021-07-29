@@ -214,8 +214,8 @@ public class HPDetail extends AppCompatActivity {
 
         //  Display Doctor related info
         DoctorName_TV.setText("Doctor " + UserPreference.getFName(HPDetail.this));
-        CountsHandler = new GetCountsHandler(HPDetail.this);
-        CountsHandler.execute();
+//        CountsHandler = new GetCountsHandler(HPDetail.this);
+//        CountsHandler.execute();
 
         //  Get all reasons for halt and store in a field inside GetAllReasonsHandler class
         ReasonsHandler = new GetAllReasonsHandler(HPDetail.this);

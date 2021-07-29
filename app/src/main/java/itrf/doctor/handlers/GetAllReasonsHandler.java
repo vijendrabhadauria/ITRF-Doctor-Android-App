@@ -70,7 +70,7 @@ public class GetAllReasonsHandler extends AsyncTask<String, String, String> {
                         Log.e("Reason", ((JSONObject) Reasons.get(i)).get("description").toString());
 
                         keyValuePair = new KeyValue(
-                                Integer.parseInt(((JSONObject) Reasons.get(i)).get("id").toString()),
+                                Integer.parseInt(((JSONObject) Reasons.get(i)).get("reasonId").toString()),
                                 ((JSONObject) Reasons.get(i)).get("description").toString()
                         );
                         ReasonsList.add(keyValuePair);
