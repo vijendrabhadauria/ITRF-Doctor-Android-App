@@ -69,7 +69,7 @@ public class HPDetail extends AppCompatActivity {
         Reject_Btn = findViewById(R.id.reject_btn);
 
         appversion = findViewById(R.id.appversion);
-        appversion.setText(doctorAppVersion_Display);
+        appversion.setText("v."+doctorAppVersion_Display);
 
 //        String ReasonTitle = "";
 //        ReasonValue keyValuePair;
