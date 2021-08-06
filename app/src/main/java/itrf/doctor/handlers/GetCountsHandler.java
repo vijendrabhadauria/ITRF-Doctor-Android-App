@@ -45,7 +45,7 @@ public class GetCountsHandler extends AsyncTask<String, String, String> {
         try {
             JSONObject jsondata = new JSONObject();
 //            jsondata.put("key", UserPreference.getProjectKey(ctx));
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "eventlog/countByDoctor/"+UserPreference.getDoctorID(ctx));
+            response = new ConnectionHandler().sendGetRequest(ServerUrl + "stats/doctorsCount/"+UserPreference.getDoctorID(ctx));
         } catch (Exception E) {
             E.printStackTrace();
             Log.e("Exception", "Get Counts Handler");

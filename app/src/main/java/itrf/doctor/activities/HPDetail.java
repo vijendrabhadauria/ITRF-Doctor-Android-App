@@ -219,12 +219,12 @@ public class HPDetail extends AppCompatActivity {
         Skip_Btn.setVisibility(View.GONE);
         Reject_Btn.setVisibility(View.GONE);
 
-        //  Display Doctor related info
+        //  Display Doctor's prescription counts
         DoctorName_TV.setText("Doctor " + UserPreference.getFName(HPDetail.this));
-//        CountsHandler = new GetCountsHandler(HPDetail.this);
-//        CountsHandler.execute();
+        CountsHandler = new GetCountsHandler(HPDetail.this);
+        CountsHandler.execute();
 
-        //  Get all reasons for halt and store in a field inside GetAllReasonsHandler class
+        //  Get all reasons for reject and store in a field inside GetAllReasonsHandler class
         ReasonsHandler = new GetAllReasonsHandler(HPDetail.this);
         ReasonsHandler.execute();
     }
