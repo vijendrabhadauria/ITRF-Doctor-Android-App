@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,7 +70,7 @@ public class HPDetail extends AppCompatActivity {
         Reject_Btn = findViewById(R.id.reject_btn);
 
         appversion = findViewById(R.id.appversion);
-        appversion.setText("v."+doctorAppVersion_Display);
+        appversion.setText("v." + doctorAppVersion_Display);
 
 //        String ReasonTitle = "";
 //        ReasonValue keyValuePair;
@@ -180,31 +181,34 @@ public class HPDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isNetworkAvailable(HPDetail.this)) {
-                    //  Disable both the Buttons to prevent profile corruption by multiple button presses
-                    Reject_Btn.setEnabled(false);
-                    Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
-                    Reject_Btn.setText("Reject");
-
-                    Prescribe_Btn.setEnabled(false);
-                    Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
-                    Prescribe_Btn.setText("Please wait..");
-
-                    Skip_Btn.setEnabled(false);
-                    Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
-                    Skip_Btn.setText("Skip Patient");
-
                     //  Get selected Prescription from spinner
                     KeyValue SelectedKit = (KeyValue) Kit_SP.getSelectedItem();
-                    //  Submit prescription
-                    PrescriptionHandler prescriptionHandler = new PrescriptionHandler(HPDetail.this);
-                    prescriptionHandler.execute(
-                            UserPreference.getDoctorID(HPDetail.this),
-                            "" + SelectedKit.getId(),
-                            ProfileHandler.Profile.get("patientId").toString(),
-                            Remarks_ET.getText().toString(),
-                            ProfileHandler.Profile.get("concernId").toString(),
-                            "0"
-                    );
+                    if (SelectedKit.getId() == 0) {
+                        Toast.makeText(HPDetail.this, "Please select a Kit", Toast.LENGTH_LONG).show();
+                    } else {
+                        //  Disable both the Buttons to prevent profile corruption by multiple button presses
+                        Reject_Btn.setEnabled(false);
+                        Reject_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                        Reject_Btn.setText("Reject");
+
+                        Prescribe_Btn.setEnabled(false);
+                        Prescribe_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                        Prescribe_Btn.setText("Please wait..");
+
+                        Skip_Btn.setEnabled(false);
+                        Skip_Btn.setBackgroundColor(getResources().getColor(R.color.colorDisabled));
+                        Skip_Btn.setText("Skip Patient");
+                        //  Submit prescription
+                        PrescriptionHandler prescriptionHandler = new PrescriptionHandler(HPDetail.this);
+                        prescriptionHandler.execute(
+                                UserPreference.getDoctorID(HPDetail.this),
+                                "" + SelectedKit.getId(),
+                                ProfileHandler.Profile.get("patientId").toString(),
+                                Remarks_ET.getText().toString(),
+                                "18",
+                                "0"
+                        );
+                    }
                 } else {
                     displayToast(HPDetail.this, "Check your internet connectivity and try again");
                 }
@@ -278,8 +282,8 @@ public class HPDetail extends AppCompatActivity {
                                 ProfileHandler.Profile.get("patientId").toString(),
                                 "reject",
                                 UserPreference.getDoctorID(HPDetail.this),
-                                ""+SelectedReason.getId()
-                                );
+                                "" + SelectedReason.getId()
+                        );
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

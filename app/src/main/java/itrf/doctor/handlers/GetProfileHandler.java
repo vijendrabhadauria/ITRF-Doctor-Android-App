@@ -28,7 +28,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
     Context ctx;
     GetAllKitsHandler KitHandler;
     AppCompatActivity HPDetailActivity;
-    private TextView Cardno_TV, Name_TV, Gender_TV, Category_TV, Age_TV;
+    private TextView Cardno_TV, Name_TV, Gender_TV, Age_TV, Disease_TV, Treatment_TV;
     Button Call_Patient_Btn, Call_Volunteer_Btn;
     public String Mobileno, VolunteerMobileNo;
     public JSONArray jsonResponse;
@@ -44,10 +44,12 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         Cardno_TV = HPDetailActivity.findViewById(R.id.cardno_tv);
         Name_TV = HPDetailActivity.findViewById(R.id.name_tv);
         Gender_TV = HPDetailActivity.findViewById(R.id.gender_tv);
-        Category_TV = HPDetailActivity.findViewById(R.id.category_tv);
+//        Category_TV = HPDetailActivity.findViewById(R.id.category_tv);
         Age_TV = HPDetailActivity.findViewById(R.id.age_tv);
         Call_Patient_Btn = HPDetailActivity.findViewById(R.id.call_patient_btn);
         Call_Volunteer_Btn = HPDetailActivity.findViewById(R.id.call_volunteer_btn);
+        Disease_TV = HPDetailActivity.findViewById(R.id.disease_tv);
+        Treatment_TV = HPDetailActivity.findViewById(R.id.treatment_tv);
     }
 
     @Override
@@ -87,7 +89,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
                 KitHandler = new GetAllKitsHandler(
                         ctx,
                         Profile.get("patientDid").toString(),
-                        Profile.get("defaultKitId").toString()
+                        "1"
                 );
                 KitHandler.execute();
                 Call_Patient_Btn.setEnabled(true);
@@ -118,7 +120,9 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
 //            SimpleDateFormat SrcSDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 //            SimpleDateFormat DestSDF = new SimpleDateFormat("dd-MMM-yyyy");
 //            DOB_TV.setText(DestSDF.format(SrcSDF.parse(DOB)));
-            Category_TV.setText(Profile.get("concernName").toString().toUpperCase());
+//            Category_TV.setText(Profile.get("concernName").toString().toUpperCase());
+            Disease_TV.setText(Profile.get("problems").toString());
+            Treatment_TV.setText(Profile.get("medicinesTaking").toString());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

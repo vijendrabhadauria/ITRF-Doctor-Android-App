@@ -162,25 +162,6 @@
                     android:layout_marginBottom="5dp">
 
                     <TextView
-                        android:id="@+id/category_head"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="Profile Type: " />
-
-                    <TextView
-                        android:id="@+id/category_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
-
-                    <TextView
                         android:id="@+id/kit_head"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,6 +172,44 @@
                         android:id="@+id/kit_sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/disease_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Disease: " />
+
+                    <TextView
+                        android:id="@+id/disease_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/treatment_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Treatment: " />
+
+                    <TextView
+                        android:id="@+id/treatment_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                 </TableRow>
             </TableLayout>
 
@@ -208,9 +227,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
+                        android:layout_weight="1"
                         android:background="@color/colorBlack"
                         android:paddingLeft="10dp"
-                        android:layout_weight="1"
                         android:paddingRight="10dp"
                         android:text="Call Volunteer"
                         android:textColor="@color/colorYellow" />
@@ -221,9 +240,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="5dp"
+                        android:layout_weight="1"
                         android:background="@color/colorBlack"
                         android:paddingLeft="10dp"
-                        android:layout_weight="1"
                         android:paddingRight="10dp"
                         android:text="Call Patient"
                         android:textColor="@color/colorWhite" />

@@ -70,7 +70,11 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
                 KitsList = new ArrayList();
                 int KitID = 0;
                 String KitTitle = "";
-                KeyValue keyValuePair;
+                KeyValue keyValuePair = new KeyValue(
+                        Integer.parseInt("0"),
+                        ("Select a Kit")
+                );
+                KitsList.add(keyValuePair);
 
                 if (Kits.size() > 0) {
                     for (int i = 0; i < Kits.size(); i++) {
@@ -87,14 +91,14 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
                 ArrayAdapter<KeyValue> adapter = new ArrayAdapter<KeyValue>(ctx, android.R.layout.simple_spinner_dropdown_item, KitsList);
                 Kit_SPN.setAdapter(adapter);
 
-                KeyValue KitItem = new KeyValue();
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    KitItem = adapter.getItem(i);
-                    if ((""+KitItem.getId()).equals(DefaultKitId)) {
-                        //  Select this Kit in dropdown by default
-                        Kit_SPN.setSelection(adapter.getPosition(KitItem));
-                    }
-                }
+//                KeyValue KitItem = new KeyValue();
+//                for (int i = 0; i < adapter.getCount(); i++) {
+//                    KitItem = adapter.getItem(i);
+//                    if ((""+KitItem.getId()).equals(DefaultKitId)) {
+//                        //  Select this Kit in dropdown by default
+//                        Kit_SPN.setSelection(adapter.getPosition(KitItem));
+//                    }
+//                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -103,46 +107,46 @@ public class GetAllKitsHandler extends AsyncTask<String, String, String> {
         }
     }
 
-    private int selectApplicableKit(String concernid) {
-        int ApplicableKitID = 0;
-        switch (concernid) {
-            case "free":
-                ApplicableKitID = 7;       //  Immunity Booster Kit
-                break;
-            case "normal":
-                ApplicableKitID = 7;       //  Immunity Booster Yog Kit
-                break;
-            case "student":
-                ApplicableKitID = 7;       //  Immunity Booster Yog Kit
-                break;
-            case "no-diabetes campaign":
-                ApplicableKitID = 6;       //  ITRF Diabetes Care yog Kit
-                break;
-            case "no-cancer campaign":
-                ApplicableKitID = 1;       //  Detoxification/Rejuvenation Kit
-                break;
-            case "immunity growth":
-                ApplicableKitID = 7;       //  ITRF Immunity Booster Yog Kit
-                break;
-            case "parent care":
-                ApplicableKitID = 8;       //  Parent Care Yog Kit
-                break;
-            case "ortho care":
-                ApplicableKitID = 9;       //  Ortho Care Yog Kit
-                break;
-            case "heart care":
-                ApplicableKitID = 10;       //  Heart Care Yog Kit
-                break;
-            case "digestive care":
-                ApplicableKitID = 11;       //  Digestive Care Yog Kit
-                break;
-            case "vision care":
-                ApplicableKitID = 12;       //  Vision Care Yog Kit
-                break;
-            case "gyno care":
-                ApplicableKitID = 13;       //  Gyno Care Yog Kit
-                break;
-        }
-        return ApplicableKitID;
-    }
+//    private int selectApplicableKit(String concernid) {
+//        int ApplicableKitID = 0;
+//        switch (concernid) {
+//            case "free":
+//                ApplicableKitID = 7;       //  Immunity Booster Kit
+//                break;
+//            case "normal":
+//                ApplicableKitID = 7;       //  Immunity Booster Yog Kit
+//                break;
+//            case "student":
+//                ApplicableKitID = 7;       //  Immunity Booster Yog Kit
+//                break;
+//            case "no-diabetes campaign":
+//                ApplicableKitID = 6;       //  ITRF Diabetes Care yog Kit
+//                break;
+//            case "no-cancer campaign":
+//                ApplicableKitID = 1;       //  Detoxification/Rejuvenation Kit
+//                break;
+//            case "immunity growth":
+//                ApplicableKitID = 7;       //  ITRF Immunity Booster Yog Kit
+//                break;
+//            case "parent care":
+//                ApplicableKitID = 8;       //  Parent Care Yog Kit
+//                break;
+//            case "ortho care":
+//                ApplicableKitID = 9;       //  Ortho Care Yog Kit
+//                break;
+//            case "heart care":
+//                ApplicableKitID = 10;       //  Heart Care Yog Kit
+//                break;
+//            case "digestive care":
+//                ApplicableKitID = 11;       //  Digestive Care Yog Kit
+//                break;
+//            case "vision care":
+//                ApplicableKitID = 12;       //  Vision Care Yog Kit
+//                break;
+//            case "gyno care":
+//                ApplicableKitID = 13;       //  Gyno Care Yog Kit
+//                break;
+//        }
+//        return ApplicableKitID;
+//    }
 }
