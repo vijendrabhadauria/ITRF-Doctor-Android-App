@@ -3,8 +3,10 @@ package itrf.doctor.handlers;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,9 +30,10 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
     Context ctx;
     GetAllKitsHandler KitHandler;
     AppCompatActivity HPDetailActivity;
-    private TextView Cardno_TV, Name_TV, Gender_TV, Age_TV, Disease_TV, Treatment_TV;
+    private TextView Cardno_TV, Name_TV, Gender_TV, Age_TV, Disease_TV, Treatment_TV, Kit_TV, interest_level_tv, med_left_curr_tv;
     Button Call_Patient_Btn, Call_Volunteer_Btn;
     public String Mobileno, VolunteerMobileNo;
+    private TableRow Kit_Row, interest_level_row, med_left_curr_row;
     public JSONArray jsonResponse;
     public JSONObject Profile;
 
@@ -50,6 +53,12 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         Call_Volunteer_Btn = HPDetailActivity.findViewById(R.id.call_volunteer_btn);
         Disease_TV = HPDetailActivity.findViewById(R.id.disease_tv);
         Treatment_TV = HPDetailActivity.findViewById(R.id.treatment_tv);
+        Kit_Row = HPDetailActivity.findViewById(R.id.kit_row);
+        Kit_TV = HPDetailActivity.findViewById(R.id.kit_tv);
+        interest_level_row = HPDetailActivity.findViewById(R.id.interest_level_row);
+        interest_level_tv = HPDetailActivity.findViewById(R.id.interest_level_tv);
+        med_left_curr_row = HPDetailActivity.findViewById(R.id.med_left_curr_row);
+        med_left_curr_tv = HPDetailActivity.findViewById(R.id.med_left_curr_tv);
     }
 
     @Override
@@ -63,7 +72,11 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
         try {
             JSONObject jsondata = new JSONObject();
             //  5 is current doctor app version
-            response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
+            if(UserPreference.getPatientProfileType(ctx).equals("new")) {
+                response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
+            } else if(UserPreference.getPatientProfileType(ctx).equals("old")) {
+                response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSingleCyclicPatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
+            }
 
             Log.e("RESULT", response);
         } catch (Exception E) {
@@ -98,10 +111,10 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
                 e.printStackTrace();
             }
         } else if ((result.equals("appversion mismatch"))) {
-            Log.e("TRY", "2");
+//            Log.e("TRY", "2");
             displayToast(ctx, "Please update your app to continue using it");
         } else {
-            Log.e("TRY", "3");
+//            Log.e("TRY", "3");
             Call_Patient_Btn.setEnabled(false);
             Call_Volunteer_Btn.setEnabled(false);
             displayToast(ctx, "No health profile is available");
@@ -123,6 +136,16 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
 //            Category_TV.setText(Profile.get("concernName").toString().toUpperCase());
             Disease_TV.setText(Profile.get("problems").toString());
             Treatment_TV.setText(Profile.get("medicinesTaking").toString());
+
+            if(UserPreference.getPatientProfileType(ctx).equals("new")) {
+                Kit_Row.setVisibility(View.GONE);
+                interest_level_row.setVisibility(View.GONE);
+                med_left_curr_row.setVisibility(View.GONE);
+            } else if(UserPreference.getPatientProfileType(ctx).equals("old")) {
+                Kit_TV.setText(Profile.get("kitName").toString());
+                interest_level_tv.setText(Profile.get("interestLevel").toString());
+                med_left_curr_tv.setText(Profile.get("medLeftCurr").toString());
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -8,7 +8,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +40,16 @@ public class HPDetail extends AppCompatActivity {
     PersonStatusHandler StatusHandler;
     GetAllReasonsHandler ReasonsHandler;
     GetCountsHandler CountsHandler;
-    private TextView DoctorName_TV, appversion;
+    private TextView DoctorName_TV, appversion, kitTV, interest_level_tv, med_left_curr_tv;
     private EditText Remarks_ET;
     private Button Call_Patient_Btn, Call_Volunteer_Btn, Prescribe_Btn, Skip_Btn, Reject_Btn;
     Spinner Kit_SP, Reason_SP;
     int noOfCallBtnPressed = 0;
+
+    private RadioGroup PatientProfileTypeRG;
+    private RadioButton OldProfileRB, NewProfileRB;
+
+    private TableRow kitRow, interest_level_row, med_left_curr_row;
 
     private ArrayAdapter<String> spinnerArrayAdapter;
     private ArrayList<KeyValue> ReasonsList;
@@ -60,6 +68,23 @@ public class HPDetail extends AppCompatActivity {
     }
 
     private void initiateViews() {
+        PatientProfileTypeRG = findViewById(R.id.profileType_rg);
+        OldProfileRB = findViewById(R.id.oldProfiles_rb);
+        NewProfileRB = findViewById(R.id.newProfiles_rb);
+
+        kitRow = findViewById(R.id.kit_row);
+        kitTV = findViewById(R.id.kit_tv);
+        interest_level_row = findViewById(R.id.interest_level_row);
+        interest_level_tv = findViewById(R.id.interest_level_tv);
+        med_left_curr_row = findViewById(R.id.med_left_curr_row);
+        med_left_curr_tv = findViewById(R.id.med_left_curr_tv);
+
+        if (UserPreference.getPatientProfileType(HPDetail.this).equals("new")) {
+            NewProfileRB.setChecked(true);
+        } else if (UserPreference.getPatientProfileType(HPDetail.this).equals("old")) {
+            OldProfileRB.setChecked(true);
+        }
+
         Remarks_ET = findViewById(R.id.remarks_et);
         Kit_SP = findViewById(R.id.kit_sp);
         DoctorName_TV = findViewById(R.id.drname);
@@ -77,6 +102,21 @@ public class HPDetail extends AppCompatActivity {
     }
 
     private void setListeners() {
+
+        PatientProfileTypeRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch(checkedId){
+                    case R.id.newProfiles_rb:
+                        UserPreference.setPatientProfileType(HPDetail.this, "new");
+                        break;
+                    case R.id.oldProfiles_rb:
+                        UserPreference.setPatientProfileType(HPDetail.this, "old");
+                        break;
+                }
+            }
+        });
 
         Skip_Btn.setOnClickListener(new View.OnClickListener() {
             @Override

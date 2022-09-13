@@ -13,6 +13,7 @@ public class UserPreference {
     static String FullName = null;
     static String MobileNo = null;
     static Date LastUsedTime = null;
+    static String PatientProfileType;     //  can be old or new
 
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -54,6 +55,18 @@ public class UserPreference {
         return getSharedPreferences(ctx).getString("fullname", FullName);
     }
 
+    //  Patient Profile
+    public static void setPatientProfileType(Context ctx, String patientProfileType) {
+        Editor editor = getSharedPreferences(ctx).edit();
+        PatientProfileType = patientProfileType;
+        editor.putString("patient_profile_type", patientProfileType);
+        editor.commit();
+    }
+
+    public static String getPatientProfileType(Context ctx) {
+        return getSharedPreferences(ctx).getString("patient_profile_type", PatientProfileType);
+    }
+
     //  Last Used Date-Time
     public static void setLastUsedTime(Context ctx) {
         Editor editor = getSharedPreferences(ctx).edit();
@@ -72,8 +85,12 @@ public class UserPreference {
         DoctorID = doctorid;
         FullName = fullname;
         MobileNo = mobileno;
+        if (PatientProfileType == null) {
+            PatientProfileType = "new";
+        }
 
         Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString("patient_profile_type", "new");
         editor.putBoolean("is_logged_in", IS_USER_LOGGED_IN);
         editor.putString("doctorid", DoctorID);
         editor.putString("fullname", FullName);
@@ -92,6 +109,7 @@ public class UserPreference {
         FullName = null;
         MobileNo = null;
         LastUsedTime = null;
+        PatientProfileType=null;
 
         editor.clear();
         editor.commit();

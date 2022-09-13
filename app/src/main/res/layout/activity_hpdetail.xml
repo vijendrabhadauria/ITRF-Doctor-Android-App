@@ -41,6 +41,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/profileType_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/oldProfiles_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginRight="50dp"
+                        android:text="Old Profiles"/>
+
+                    <RadioButton
+                        android:id="@+id/newProfiles_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="New Profiles"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -151,6 +181,66 @@
 
                     <TextView
                         android:id="@+id/age_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/kit_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/kit_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="Kit: " />
+
+                    <TextView
+                        android:id="@+id/kit_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/interest_level_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/interest_level_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="BR: " />
+
+                    <TextView
+                        android:id="@+id/interest_level_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/med_left_curr_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/med_left_curr_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="ML Count: " />
+
+                    <TextView
+                        android:id="@+id/med_left_curr_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="" />
