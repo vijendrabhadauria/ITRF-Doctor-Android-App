@@ -1,6 +1,7 @@
 package itrf.doctor.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static itrf.doctor.support.GeneralUtil.displayToast;
+import static itrf.doctor.support.GeneralUtil.generateOtp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,22 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.simple.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 
 import itrf.doctor.R;
-import itrf.doctor.handlers.ConnectionHandler;
 import itrf.doctor.handlers.LoginHandler;
-import itrf.doctor.support.GeneralUtil;
 import itrf.doctor.support.UserPreference;
-
-import static itrf.doctor.support.Const.ServerUrl;
-import static itrf.doctor.support.GeneralUtil.displayToast;
-import static itrf.doctor.support.GeneralUtil.generateOtp;
 
 public class MainActivity extends AppCompatActivity {
 

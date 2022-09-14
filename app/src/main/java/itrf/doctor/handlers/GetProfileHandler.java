@@ -69,12 +69,15 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... params) {
         String response = null;
+//        Log.e("Doc ID", UserPreference.getDoctorID(this.ctx));
         try {
             JSONObject jsondata = new JSONObject();
             //  5 is current doctor app version
             if(UserPreference.getPatientProfileType(ctx).equals("new")) {
+//                Log.e("hitting", ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
                 response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSinglePatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
             } else if(UserPreference.getPatientProfileType(ctx).equals("old")) {
+//                Log.e("hitting", ServerUrl + "viewpatientfull/findSingleCyclicPatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
                 response = new ConnectionHandler().sendGetRequest(ServerUrl + "viewpatientfull/findSingleCyclicPatientToPrescribe/" + UserPreference.getDoctorID(this.ctx) + "/" + doctorAppVersion);
             }
 
@@ -143,7 +146,7 @@ public class GetProfileHandler extends AsyncTask<String, String, String> {
                 med_left_curr_row.setVisibility(View.GONE);
             } else if(UserPreference.getPatientProfileType(ctx).equals("old")) {
                 Kit_TV.setText(Profile.get("kitName").toString());
-                interest_level_tv.setText(Profile.get("interestLevel").toString());
+                interest_level_tv.setText(Profile.get("interestLevel").toString()+"0 percent");
                 med_left_curr_tv.setText(Profile.get("medLeftCurr").toString());
             }
         } catch (Exception ex) {
