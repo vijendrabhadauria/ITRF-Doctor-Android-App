@@ -1,6 +1,7 @@
 package itrf.doctor.handlers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import itrf.doctor.R;
+import itrf.doctor.activities.HPDetail;
 import itrf.doctor.support.UserPreference;
 
 import static itrf.doctor.support.Const.ServerUrl;
@@ -65,6 +67,10 @@ public class PrescriptionHandler extends AsyncTask<String, String, String> {
                 if (response.get("status").toString().equals("success")) {
                     displayToast(ctx, "Prescription saved");
                     ((AppCompatActivity)ctx).finish();
+                    Intent openProfileIntent = new Intent(ctx, HPDetail.class);     //  Re-open the activity for newFamily
+                    openProfileIntent.putExtra("isSubmitted", "true");
+                    openProfileIntent.putExtra("fetchType", "sameFamily");
+                    ctx.startActivity(openProfileIntent);
                 } else if (response.get("status").toString().equals("failure")) {
                     displayToast(ctx, response.get("msg").toString());
                     Prescribe_Btn.setEnabled(true);

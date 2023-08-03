@@ -26,6 +26,7 @@ import itrf.doctor.handlers.GetCountsHandler;
 import itrf.doctor.handlers.GetProfileHandler;
 import itrf.doctor.handlers.PersonStatusHandler;
 import itrf.doctor.handlers.PrescriptionHandler;
+import itrf.doctor.handlers.UpdateOptPrescriptionStatusHandler;
 import itrf.doctor.handlers.UpdatePatientStatusHandler;
 import itrf.doctor.support.KeyValue;
 import itrf.doctor.support.UserPreference;
@@ -36,6 +37,7 @@ import static itrf.doctor.support.GeneralUtil.isNetworkAvailable;
 
 public class HPDetail extends AppCompatActivity {
 
+    String isSubmitted, fetchType;
     GetProfileHandler ProfileHandler;
     PersonStatusHandler StatusHandler;
     GetAllReasonsHandler ReasonsHandler;
@@ -45,10 +47,8 @@ public class HPDetail extends AppCompatActivity {
     private Button Call_Patient_Btn, Call_Volunteer_Btn, Prescribe_Btn, Skip_Btn, Reject_Btn;
     Spinner Kit_SP, Reason_SP;
     int noOfCallBtnPressed = 0;
-
     private RadioGroup PatientProfileTypeRG;
     private RadioButton OldProfileRB, NewProfileRB;
-
     private TableRow kitRow, interest_level_row, med_left_curr_row;
 
     private ArrayAdapter<String> spinnerArrayAdapter;
@@ -58,12 +58,16 @@ public class HPDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hpdetail);
+
+        isSubmitted = getIntent().getStringExtra("isSubmitted");
+        fetchType = getIntent().getStringExtra("fetchType");
+
         initiateViews();
         setListeners();
         performDefaultOperations();
 
         //  Fetch Person Profile
-        ProfileHandler = new GetProfileHandler(HPDetail.this);
+        ProfileHandler = new GetProfileHandler(HPDetail.this, isSubmitted, fetchType);
         ProfileHandler.execute();
     }
 
@@ -207,7 +211,11 @@ public class HPDetail extends AppCompatActivity {
             public void onClick(View v) {
                 if (isNetworkAvailable(HPDetail.this)) {
                     try {
-                        initiateCall(ProfileHandler.VolunteerMobileNo);
+                        if (ProfileHandler.PatientType.equalsIgnoreCase("family")) {
+                            doNotProceedForPrescription();
+                        } else {
+                            initiateCall(ProfileHandler.VolunteerMobileNo);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -282,6 +290,25 @@ public class HPDetail extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", numberToDial, null));
         startActivity(intent);
+    }
+
+    public void doNotProceedForPrescription() {
+        if (isNetworkAvailable(HPDetail.this)) {
+            try {
+                //  Submit request
+                UpdateOptPrescriptionStatusHandler patientOptPrescriptionStatusHandler = new UpdateOptPrescriptionStatusHandler(HPDetail.this);
+                patientOptPrescriptionStatusHandler.execute(
+                        ProfileHandler.Profile.get("patientId").toString(),
+                        "0",
+                        UserPreference.getDoctorID(HPDetail.this),
+                        "doctor"
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            displayToast(HPDetail.this, "Check your internet connectivity and try again");
+        }
     }
 
     public void askForRejectReason() {

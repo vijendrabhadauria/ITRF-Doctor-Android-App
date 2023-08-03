@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity {
     private void openProfileActivity() {
         finish();
         Intent openProfileIntent = new Intent(MainActivity.this, HPDetail.class);
+        openProfileIntent.putExtra("isSubmitted", "false");
+        openProfileIntent.putExtra("fetchType", "sameFamily");
         startActivity(openProfileIntent);
     }
 

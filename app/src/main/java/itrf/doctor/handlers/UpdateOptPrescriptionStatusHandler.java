@@ -1,7 +1,9 @@
 package itrf.doctor.handlers;
 
+import static itrf.doctor.support.Const.ServerUrl;
+import static itrf.doctor.support.GeneralUtil.displayToast;
+
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Button;
@@ -13,18 +15,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import itrf.doctor.R;
-import itrf.doctor.activities.HPDetail;
 
-import static itrf.doctor.support.Const.ServerUrl;
-import static itrf.doctor.support.GeneralUtil.displayToast;
-
-public class UpdatePatientStatusHandler
+public class UpdateOptPrescriptionStatusHandler
         extends AsyncTask<String, String, String> {
     Context ctx;
     AppCompatActivity HPDetailActivity;
     private Button Skip_Btn;
 
-    public UpdatePatientStatusHandler(Context ctx) {
+    public UpdateOptPrescriptionStatusHandler(Context ctx) {
         this.ctx = ctx;
         HPDetailActivity = (AppCompatActivity) ctx;
         getActivityComponents();
@@ -47,14 +45,11 @@ public class UpdatePatientStatusHandler
             jsondata.put("patientId", params[0]);
             jsondata.put("status", params[1]);
             jsondata.put("doctorId", params[2]);
-            //  params[3] (i.e. Reason of rejection) is available only when patient is rejected
-            if (params[1].equals("reject")) {
-                jsondata.put("rejectReasonId", params[3]);
-            }
-            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "patient/updateStatus");
+            jsondata.put("requestor", params[3]);
+            response = new ConnectionHandler().sendPostJsonRequest(jsondata, ServerUrl + "patient/updateOptPrescriptionStatus");
         } catch (Exception E) {
             E.printStackTrace();
-            Log.e("Exception", "In Update Patient Status Handler");
+            Log.e("Exception", "In Update Patient Opt Prescription Status Handler");
         }
 
         return response;
@@ -68,9 +63,6 @@ public class UpdatePatientStatusHandler
                 if (response.get("status").toString().equals("success")) {
                     displayToast(ctx, response.get("msg").toString());
                     ((AppCompatActivity) ctx).finish();
-                    Intent openProfileIntent = new Intent(ctx, HPDetail.class);     //  Re-open the activity for newFamily
-                    openProfileIntent.putExtra("isSubmitted", "true");
-                    openProfileIntent.putExtra("fetchType", "sameFamily");
                 } else if (response.get("status").toString().equals("failure")) {
                     displayToast(ctx, response.get("cause").toString());
                     Skip_Btn.setEnabled(true);
